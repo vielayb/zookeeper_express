@@ -49,6 +49,14 @@ function filterByQuery(query, animalsArray) {
 }
 
 //==========================================================
+// creating a findById function *** ref. 11.1.7
+//==========================================================
+function findById(id, animalsArray) {
+  const result = animalsArray.filter(animal => animal.id === id)[0];
+  return result;
+}
+
+//==========================================================
 // creating a route that the front-end can request data from *** ref. 11.1.5
 //==========================================================
 app.get('/api/animals', (req, res) => {
@@ -57,6 +65,18 @@ app.get('/api/animals', (req, res) => {
         results = filterByQuery(req.query, results);
     }
     res.json(results);
+});
+
+//==========================================================
+// creating a get route with req.params object *** ref. 11.1.7
+//==========================================================
+app.get('/api/animals/:id', (req, res) => {
+  const result = findById(req.params.id, animals);
+  if (result) {
+    res.json(result);
+  } else {
+    res.send(404);
+  }
 });
 
 //==========================================================
