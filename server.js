@@ -13,6 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
 
+app.use(express.static('public'));
+
 const { animals } = require('./data/animals'); 
 
 
@@ -137,6 +139,34 @@ app.post('/api/animals', (req, res) => {
     const animal = createNewAnimal(req.body, animals);
     res.json(animal);
   }
+});
+
+//==========================================================
+// creating a route so index.html can be served in our server
+//==========================================================
+app.get('/', (req, res) => { // the '/' refers to the root of the route
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+//==========================================================
+// creating a route so animals.html can be served in our server
+//==========================================================
+app.get('/animals', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+//==========================================================
+// creating a route so zookeepers.html can be served in our server
+//==========================================================
+app.get('/zookeepers', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+//==========================================================
+// creating a wildcard route to capture request that doesn't exist
+//==========================================================
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 //==========================================================
